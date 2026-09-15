@@ -1,10 +1,9 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-
-// Sin proteger todavia: esto es lo primero que se va a "romper" a proposito
-// en el video para mostrar por que hace falta autenticacion y autorizacion.
-@Controller('users')
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import { UsersService } from "./users.service";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+@UseGuards(JwtAuthGuard)
+@Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

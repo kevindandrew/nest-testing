@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, Global } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
 import { UsersModule } from "../users/users.module";
 import { AuthService } from "./auth.service";
@@ -7,6 +7,9 @@ import { LocalStrategy } from "./strategies/local.strategy";
 import { JwtModule } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { StringValue } from "ms";
+import { JwtStrategy } from "./strategies/jwt.strategy";
+import passport from "passport";
+@Global()
 @Module({
   imports: [
     UsersModule,
@@ -23,7 +26,7 @@ import { StringValue } from "ms";
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy],
-  exports: [AuthService],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
+  exports: [AuthService, PassportModule],
 })
 export class AuthModule {}
